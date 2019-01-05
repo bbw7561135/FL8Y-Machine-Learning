@@ -121,6 +121,7 @@ for name, classifier in zip(names, classifiers):
             max_tnr = tnr
             max_f1 = f1
             max_prec = prec
+			max_acc = acc
             filename = name+'.sav'
             pickle.dump(clf,open(filename,'wb'))
     print("Max accuracy model: TPR " + str(max_tpr) + " TNR " + str(max_tnr) + " F1 score " + str(max_f1) + " Accuracy " + str(max_acc) + " Precision " + str(max_prec))
