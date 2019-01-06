@@ -19,7 +19,7 @@ pd.options.display.max_rows = 10
 pd.options.display.max_columns = 40
 pd.options.display.float_format = '{:.1f}'.format
 
-file = open('lists.txt','r')
+file = open('psr_candidates.txt','r')
 test = file.readlines()
 file.close()
 i = 0
@@ -101,27 +101,8 @@ names = ["KNeighborsClassifier", "LinearSVM", "RBFSVM", "GaussianProcessClassifi
          "DecisionTreeClassifier", "RandomForestClassifier", "NeuralNet", "AdaBoost",
          "NaiveBayes", "QDA"]
 
-#clf = [pickle.load(open("KNeighborsClassifier_MSP.sav", 'rb')),
-#       pickle.load(open("SVC_MSP.sav", 'rb')),
-#       pickle.load(open("GaussianProcessClassifier_MSP.sav", 'rb')),
-#       pickle.load(open("DecisionTreeClassifier_MSP.sav", 'rb')),
-#       pickle.load(open("RandomForestClassifier_MSP.sav", 'rb')),
-#       pickle.load(open("MLPClassifier_MSP.sav", 'rb')),
-#       pickle.load(open("GaussianNB_MSP.sav", 'rb')),
-#       pickle.load(open("QuadraticDiscriminantAnalysis_MSP.sav", 'rb'))]
-
-#name = ["KNeighborsClassifier","SVC","GaussianProcessClassifier",
-#        "DecisionTreeClassifier",
-#        "RandomForestClassifier",
-#        "MLPClassifier","GaussianNB","QuadraticDiscriminantAnalysis"]
-
 df = pd.DataFrame()
 df["Source_Name"] = my_dataframe["Source_Name"]
-#count = 0
-#for cl in clf:
-#    preds = cl.predict(test[features])
-#    df[name[count]] = preds
-#    count += 1
     
 for name in names:
     cl = pickle.load(open(name+'_MSP.sav','rb'))
