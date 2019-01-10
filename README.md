@@ -27,7 +27,8 @@ python3 AGN_PSR_Result.py
 1. (Optional) If you don't have the file psr_list.txt for the list of YNG/MSP, run 
 
 ```
-(Constructing)
+g++ gen_psr_list.cpp -o gen_psr_list
+./gen_psr_list
 ```
 
 2. For YNG-MSP Classification, run
@@ -36,7 +37,7 @@ python3 AGN_PSR_Result.py
 python3 YNG_MSP_Training.py
 ```
 
-3. The overall results will be stored in YNG_MSP_result.txt.
+3. The overall training results will be stored in YNG_MSP_result.txt.
 
 4. To classify the catalog, run
 

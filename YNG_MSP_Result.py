@@ -13,7 +13,7 @@ from sklearn.naive_bayes import GaussianNB
 from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis
 import pickle
 
-#xxx
+#Load list of possible PSR
 file = open('psr_candidates.txt','r')
 test = file.readlines()
 file.close()
@@ -32,9 +32,11 @@ my_dataframe = pd.read_csv("gll_psc_8year_v5_psc.csv", sep=",")
 
 #Drop data that are missing value
 my_dataframe = my_dataframe.dropna(subset=['Conf_95_SemiMajor','Signif_Avg'])
+
+#Select unclassified data
 my_dataframe = my_dataframe[my_dataframe.CLASS == '       ']
 
-#xxx
+#Helper function for selecting possible PSR from catalog
 def listcheck(name):
     for psr in save:
         if(name.startswith(psr)):
@@ -52,8 +54,8 @@ my_dataframe["log_flux1000"] = np.log(my_dataframe["Flux1000"])
 my_dataframe["log_energy_flux100"] = np.log(my_dataframe["Energy_Flux100"])
 my_dataframe["log_npred"] = np.log(my_dataframe["Npred"])
 my_dataframe["log_signif_avg"] = np.log(my_dataframe["Signif_Avg"])
-my_dataframe["log_Conf_95_SemiMajor"] = np.log(my_dataframe["Conf_95_SemiMajor"])
-my_dataframe["log_Conf_95_SemiMinor"] = np.log(my_dataframe["Conf_95_SemiMinor"])
+#my_dataframe["log_Conf_95_SemiMajor"] = np.log(my_dataframe["Conf_95_SemiMajor"])
+#my_dataframe["log_Conf_95_SemiMinor"] = np.log(my_dataframe["Conf_95_SemiMinor"])
 
 def preprocess_features(my_dataframe):
     selected_features = my_dataframe[["log_flux_density","log_ROI_num","log_pivot_energy","log_flux1000","log_energy_flux100","LP_Index","LP_beta","log_npred","log_signif_avg","PLEC_Index","PLEC_Expfactor","GLAT"]]

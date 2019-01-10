@@ -16,7 +16,7 @@ import pickle
 #Seed for random separation of test data and training data
 np.random.seed(0)
 
-#Get the list of PSR from psr_list.txt (can be generated using raw_pst_list.txt and gen_psr_list.cpp)
+#Get the list of YNG-MSP from psr_list.txt (can be generated using raw_pst_list.txt and gen_psr_list.cpp)
 file = open('psr_list.txt','r')
 test = file.readlines()
 file.close()
@@ -35,7 +35,7 @@ while(i<le):
 #Load the FL8Y Catalog
 my_dataframe = pd.read_csv("gll_psc_8year_v5_psc.csv", sep=",")
 
-#Drop data that are missing value
+#Drop unclassified data or data that are missing value
 my_dataframe = my_dataframe.dropna(subset=['Conf_95_SemiMajor','Signif_Avg'])
 my_dataframe = my_dataframe[my_dataframe.CLASS != '       ']
 my_dataframe = my_dataframe.reindex(np.random.permutation(my_dataframe.index))
@@ -59,8 +59,6 @@ my_dataframe["log_flux1000"] = np.log(my_dataframe["Flux1000"])
 my_dataframe["log_energy_flux100"] = np.log(my_dataframe["Energy_Flux100"])
 my_dataframe["log_npred"] = np.log(my_dataframe["Npred"])
 my_dataframe["log_signif_avg"] = np.log(my_dataframe["Signif_Avg"])
-my_dataframe["log_Conf_95_SemiMajor"] = np.log(my_dataframe["Conf_95_SemiMajor"])
-my_dataframe["log_Conf_95_SemiMinor"] = np.log(my_dataframe["Conf_95_SemiMinor"])
 
 def preprocess_features(my_dataframe):
     selected_features = my_dataframe[["log_flux_density","log_ROI_num","log_pivot_energy","log_flux1000","log_energy_flux100","LP_Index","LP_beta","log_npred","log_signif_avg","PLEC_Index","PLEC_Expfactor","GLAT"]]

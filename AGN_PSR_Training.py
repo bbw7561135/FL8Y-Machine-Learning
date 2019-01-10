@@ -39,7 +39,7 @@ my_dataframe["log_flux1000"] = np.log(my_dataframe["Flux1000"])
 my_dataframe["log_energy_flux100"] = np.log(my_dataframe["Energy_Flux100"])
 my_dataframe["log_npred"] = np.log(my_dataframe["Npred"])
 my_dataframe["log_signif_avg"] = np.log(my_dataframe["Signif_Avg"])
-my_dataframe["nor_LP_SigCurv"] = (my_dataframe.LP_SigCurv - my_dataframe.LP_SigCurv.mean())/my_dataframe.LP_SigCurv.std(ddof=0)
+
 def preprocess_features(my_dataframe):
     selected_features = my_dataframe[["log_flux_density","log_ROI_num","log_pivot_energy","log_flux1000","log_energy_flux100","LP_Index","LP_beta","log_npred","log_signif_avg","PLEC_Index","PLEC_Expfactor"]]
     processed_features = selected_features.copy()
