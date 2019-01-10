@@ -2,13 +2,13 @@
 
 To use the code, follow the instructions below
 
-##Prerequisites
+## Prerequisites
 
 1. Clone all the file to your local computer.
 
 2. Make sure you have the libraries installed for your Python 3 ([NumPy](http://www.numpy.org/), [Pandas](https://pandas.pydata.org/), [scikit-learn](https://scikit-learn.org/) and pickle [pickle is installed for Python 3 by default]).
 
-##AGN-PSR Classification
+## AGN-PSR Classification
 1. For AGN-PSR Classification, run
 
 ```
@@ -23,7 +23,7 @@ python3 AGN_PSR_Training.py
 python3 AGN_PSR_Result.py
 ```
 
-##YNG-MSP Classification
+## YNG-MSP Classification
 1. (Optional) If you don't have the file psr_list.txt for the list of YNG/MSP, run 
 
 ```
