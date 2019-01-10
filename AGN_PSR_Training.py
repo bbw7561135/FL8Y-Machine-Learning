@@ -1,7 +1,6 @@
+#Import libraries (numpy,pandas,sklearn,pickle)
 import numpy as np
 import pandas as pd
-
-from sklearn import metrics
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.neural_network import MLPClassifier
 from sklearn.neighbors import KNeighborsClassifier
@@ -12,15 +11,15 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier
 from sklearn.naive_bayes import GaussianNB
 from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis
-
 import pickle
 
-pd.options.display.max_rows = 10
-pd.options.display.max_columns = 50
-pd.options.display.float_format = '{:.5f}'.format
+#Seed for random separation of test data and training data
+np.random.seed(0)
 
-#preprocessing data
+#Load the FL8Y Catalog
 my_dataframe = pd.read_csv("gll_psc_8year_v5_psc.csv", sep=",")
+
+#Drop data that are missing value or not AGN or not PSR
 my_dataframe = my_dataframe[my_dataframe.CLASS != '       ']
 my_dataframe = my_dataframe.dropna(subset=['Signif_Avg'])
 my_dataframe = my_dataframe.reindex(np.random.permutation(my_dataframe.index))
@@ -31,6 +30,8 @@ my_dataframe['psr_float'] = my_dataframe["is_psr_bool"].apply(lambda name: float
 my_dataframe["AGN_or_PSR"] = my_dataframe['bll_float'] + my_dataframe['psr_float']
 my_dataframe = my_dataframe[my_dataframe.AGN_or_PSR != 0.0]
 my_dataframe["AGN_or_PSR"] = my_dataframe["AGN_or_PSR"] - 1.0
+
+#Features
 my_dataframe["log_flux_density"] = np.log(my_dataframe["Flux_Density"])
 my_dataframe["log_ROI_num"] = np.log(my_dataframe["ROI_num"])
 my_dataframe["log_pivot_energy"] = np.log(my_dataframe["Pivot_Energy"])
@@ -48,9 +49,7 @@ def preprocess_targets(my_dataframe):
     output_targets = my_dataframe[["AGN_or_PSR"]]
     return output_targets
 
-#seed
-np.random.seed(0)
-
+#Name and function for the classifiers
 names = ["KNeighborsClassifier", "LinearSVM", "RBFSVM", "GaussianProcessClassifier",
          "DecisionTreeClassifier", "RandomForestClassifier", "NeuralNet", "AdaBoost",
          "NaiveBayes", "QDA"]
@@ -67,8 +66,10 @@ classifiers = [
     GaussianNB(),
     QuadraticDiscriminantAnalysis()]
 
+#Output file name
 outf = open("AGN_PSR_result.txt","w")
 
+#Loop through different classifiers
 for name, classifier in zip(names, classifiers):
     print(name)
     print(name, file=outf)
@@ -77,10 +78,14 @@ for name, classifier in zip(names, classifiers):
     max_f1 = 0.0
     max_tnr = 0.0
     max_prec = 0.0
-    for loop in range(1000):
+
+    #Training process (Repeated from the beginning for 1000 times)
+    for loop in range(2):
+        #Separate 75% data to training data, 25% data to test data
         my_dataframe['is_train'] = np.random.uniform(0, 1, len(my_dataframe)) <= .75
         train, test = my_dataframe[my_dataframe['is_train']==True], my_dataframe[my_dataframe['is_train']==False]
 
+        #Get the feature and target for training data and test data
         train_feature = preprocess_features(train)
         train_target = preprocess_targets(train)
         y = pd.factorize(train_target["AGN_or_PSR"])[0]
@@ -89,16 +94,15 @@ for name, classifier in zip(names, classifiers):
         test_target = preprocess_targets(test)
 
         features = train_feature.columns[:11]
-        features
 
-        #choose classifier
+        #Select classifier and train
         clf = classifier
         clf.fit(train_feature[features], y)
 
-        #predict
+        #Predict the result for test data
         preds = clf.predict(test_feature[features])
 
-        #result
+        #Result
         print(loop)
         if(pd.crosstab(test_target["AGN_or_PSR"], preds, rownames=['Actual'], colnames=['Predicted']).size == 4):
             print(pd.crosstab(test_target["AGN_or_PSR"], preds, rownames=['Actual'], colnames=['Predicted']))
@@ -107,15 +111,18 @@ for name, classifier in zip(names, classifiers):
             fn = pd.crosstab(test_target["AGN_or_PSR"], preds, rownames=['Actual'], colnames=['Predicted']).iat[1,0]
             tp = pd.crosstab(test_target["AGN_or_PSR"], preds, rownames=['Actual'], colnames=['Predicted']).iat[1,1]
 
+            #Calculate TPR, TNR, F1 score, Accuracy, Precision
             tpr = tp/(tp+fn)
             tnr = tn/(tn+fp)
             f1 = (2*tp)/(2*tp+fp+fn)
             acc = (tp+tn)/(tp+tn+fp+fn)
             prec = tp/(tp+fp)
 
-            #describe
+            #Output result
             print("TPR", tpr, "TNR", tnr, "F1 score", f1, "Accuracy", acc, "Precision", prec)
             print()
+
+        #Save the best result (highest accuracy)
         if(f1>max_f1):
             max_tpr = tpr
             max_tnr = tnr
@@ -124,10 +131,11 @@ for name, classifier in zip(names, classifiers):
             max_acc = acc
             filename = name+'.sav'
             pickle.dump(clf,open(filename,'wb'))
+
+    #Describe best model for this classifier
     print("Max accuracy model: TPR " + str(max_tpr) + " TNR " + str(max_tnr) + " F1 score " + str(max_f1) + " Accuracy " + str(max_acc) + " Precision " + str(max_prec))
     print("Max accuracy model: TPR " + str(max_tpr) + " TNR " + str(max_tnr) + " F1 score " + str(max_f1) + " Accuracy " + str(max_acc) + " Precision " + str(max_prec), file=outf)
     print("",file=outf)
     print()
     
 outf.close()
-

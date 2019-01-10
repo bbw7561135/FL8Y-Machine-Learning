@@ -3,6 +3,7 @@ using namespace std;
 
 int main(){
 	
+	//Input and output file
 	ifstream fin("raw_psr_list.txt");
 	ofstream fout("psr_list.txt");
 	
@@ -11,12 +12,12 @@ int main(){
 	while(!fin.eof()){
 		fin >> str1;
 		fin >> str2;
-		fin >> str3; //no use
-		fin >> str4; //no use
-		fin >> str5; //no use
-		fin >> str6; //no use
+		fin >> str3; //Other information not needed
+		fin >> str4; //Other information not needed
+		fin >> str5; //Other information not needed
+		fin >> str6; //Other information not needed
 		fin >> str7;
-		fin >> str8; //no use
+		fin >> str8; //Other information not needed
 		int len = str7.length();
 		bool good = false;
 		for(int i=0;i<len;i++){
