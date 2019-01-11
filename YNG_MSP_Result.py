@@ -14,7 +14,7 @@ from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis
 import pickle
 
 #Load list of possible PSR
-file = open('psr_candidates.txt','r')
+file = open('psr_candidates_top_3_model.txt','r')
 test = file.readlines()
 file.close()
 i = 0
@@ -105,5 +105,9 @@ df = df.applymap(converter)
 
 #Save the results as csv
 df.to_csv('result_msp.csv',sep='\t', index=False)
+
+#Save two models results
+df[df['90upmodel'] == 'MSP']["Source_Name"].to_csv('msp_candidates_90_up_model.txt', header=None, index=None, sep=' ')
+df[df['top3model'] == 'MSP']["Source_Name"].to_csv('msp_candidates_top_3_model.txt', header=None, index=None, sep=' ')
 
 print("Done!")

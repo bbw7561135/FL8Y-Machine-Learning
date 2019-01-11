@@ -74,6 +74,8 @@ df = df.applymap(converter)
 #Save the results as csv
 df.to_csv('result.csv',sep='\t', index=False)
 
-df[df['top3model'] == 'PSR']["Source_Name"].to_csv('psr_candidates.txt', header=None, index=None, sep=' ')
+#Save two models results
+df[df['90upmodel'] == 'PSR']["Source_Name"].to_csv('psr_candidates_90_up_model.txt', header=None, index=None, sep=' ')
+df[df['top3model'] == 'PSR']["Source_Name"].to_csv('psr_candidates_top_3_model.txt', header=None, index=None, sep=' ')
 
 print("Done!")

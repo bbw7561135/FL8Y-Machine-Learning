@@ -1,12 +1,12 @@
 # Classification of Fermi LAT Gamma-ray Sources from the FL8Y Catalog using Machine Learning Techniques
 
-To use the code, follow the instructions below
+To use the code, follow the instructions below.
 
 ## Prerequisites
 
 1. Clone all the file to your local computer.
 
-2. Make sure you have the libraries installed for your Python 3 ([NumPy](http://www.numpy.org/), [Pandas](https://pandas.pydata.org/), [scikit-learn](https://scikit-learn.org/) and pickle [pickle is installed for Python 3 by default]).
+2. Make sure you have the required libraries installed for your Python 3 ([NumPy](http://www.numpy.org/), [Pandas](https://pandas.pydata.org/), [scikit-learn](https://scikit-learn.org/) and pickle [pickle is installed for Python 3 by default]).
 
 ## AGN-PSR Classification
 1. For AGN-PSR Classification, run
@@ -14,14 +14,15 @@ To use the code, follow the instructions below
 ```
 python3 AGN_PSR_Training.py
 ```
+The overall training results will be stored in AGN_PSR_result.txt.
 
-2. The overall training results will be stored in AGN_PSR_result.txt.
-
-3. To classify the catalog, run
+2. To classify the whole catalog, run
 
 ```
 python3 AGN_PSR_Result.py
 ```
+
+The classified catalog will be stored in results.csv. The list of PSR for the two different models (90.0%-up-model and top-3-model) will be stored in psr_candidates_90_up_model.txt and psr_candidates_top_3_model.txt.
 
 ## YNG-MSP Classification
 1. (Optional) If you don't have the file psr_list.txt for the list of YNG/MSP, run 
@@ -37,10 +38,12 @@ g++ gen_psr_list.cpp -o gen_psr_list
 python3 YNG_MSP_Training.py
 ```
 
-3. The overall training results will be stored in YNG_MSP_result.txt.
+The overall training results will be stored in YNG_MSP_result.txt.
 
-4. To classify the catalog, run
+3. To classify the PSR candidates (Make sure you have run the AGN-PSR Classification for the list of PSR candidates), run
 
 ```
 python3 YNG_MSP_Result.py
 ```
+
+The classified catalog will be stored in results_msp.csv. The list of MSP for the two different models (90.0%-up-model and top-3-model) will be stored in msp_candidates_90_up_model.txt and msp_candidates_top_3_model.txt.
