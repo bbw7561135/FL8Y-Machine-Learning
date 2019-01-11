@@ -70,14 +70,13 @@ def preprocess_targets(my_dataframe):
     return output_targets
 
 #Name and function for the classifiers
-names = ["KNeighborsClassifier", "LinearSVM", "RBFSVM", "GaussianProcessClassifier",
+names = ["KNeighborsClassifier", "LinearSVM", "GaussianProcessClassifier",
          "DecisionTreeClassifier", "RandomForestClassifier", "NeuralNet", "AdaBoost",
          "NaiveBayes", "QDA"]
 
 classifiers = [
     KNeighborsClassifier(3),
     SVC(kernel="linear", C=0.025),
-    SVC(gamma=2, C=1),
     GaussianProcessClassifier(1.0 * RBF(1.0)),
     DecisionTreeClassifier(max_depth=5),
     RandomForestClassifier(max_depth=5, n_estimators=10, max_features=1),
@@ -100,7 +99,7 @@ for name, classifier in zip(names, classifiers):
     max_prec = 0.0
 
     #Training process (Repeated from the beginning for 1000 times)
-    for loop in range(10):
+    for loop in range(1000):
         #Separate 70% data to training data, 30% data to test data
         my_dataframe['is_train'] = np.random.uniform(0, 1, len(my_dataframe)) <= .7
         train, test = my_dataframe[my_dataframe['is_train']==True], my_dataframe[my_dataframe['is_train']==False]

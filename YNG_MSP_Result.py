@@ -54,8 +54,6 @@ my_dataframe["log_flux1000"] = np.log(my_dataframe["Flux1000"])
 my_dataframe["log_energy_flux100"] = np.log(my_dataframe["Energy_Flux100"])
 my_dataframe["log_npred"] = np.log(my_dataframe["Npred"])
 my_dataframe["log_signif_avg"] = np.log(my_dataframe["Signif_Avg"])
-#my_dataframe["log_Conf_95_SemiMajor"] = np.log(my_dataframe["Conf_95_SemiMajor"])
-#my_dataframe["log_Conf_95_SemiMinor"] = np.log(my_dataframe["Conf_95_SemiMinor"])
 
 def preprocess_features(my_dataframe):
     selected_features = my_dataframe[["log_flux_density","log_ROI_num","log_pivot_energy","log_flux1000","log_energy_flux100","LP_Index","LP_beta","log_npred","log_signif_avg","PLEC_Index","PLEC_Expfactor","GLAT"]]
@@ -72,7 +70,7 @@ test= preprocess_features(my_dataframe)
 features = test.columns[:12]
 
 #Name for the classifiers
-names = ["KNeighborsClassifier", "LinearSVM", "RBFSVM", "GaussianProcessClassifier",
+names = ["KNeighborsClassifier", "LinearSVM", "GaussianProcessClassifier",
          "DecisionTreeClassifier", "RandomForestClassifier", "NeuralNet", "AdaBoost",
          "NaiveBayes", "QDA"]
 
@@ -87,7 +85,7 @@ for name in names:
     df[name] = preds
 
 #Results for 90%-up-model and top-3-model
-df['90upmodel'] = df[["KNeighborsClassifier", "LinearSVM", "RBFSVM", "GaussianProcessClassifier",
+df['90upmodel'] = df[["KNeighborsClassifier", "LinearSVM", "GaussianProcessClassifier",
          "DecisionTreeClassifier", "RandomForestClassifier", "NeuralNet", "AdaBoost",
          "NaiveBayes", "QDA"]].min(axis=1)
 df['top3model'] = df[["KNeighborsClassifier","GaussianProcessClassifier","QDA"]].mode(axis=1)

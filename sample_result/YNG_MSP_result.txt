@@ -4,9 +4,6 @@ Max accuracy model: TPR 1.0 TNR 1.0 F1 score 1.0 Accuracy 1.0 Precision 1.0
 LinearSVM
 Max accuracy model: TPR 0.9354838709677419 TNR 0.8846153846153846 F1 score 0.9206349206349206 Accuracy 0.9122807017543859 Precision 0.90625
 
-RBFSVM
-Max accuracy model: TPR 0.9545454545454546 TNR 0.7714285714285715 F1 score 0.8235294117647058 Accuracy 0.8421052631578947 Precision 0.7241379310344828
-
 GaussianProcessClassifier
 Max accuracy model: TPR 1.0 TNR 1.0 F1 score 1.0 Accuracy 1.0 Precision 1.0
 

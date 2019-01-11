@@ -42,7 +42,7 @@ test= preprocess_features(my_dataframe)
 features = test.columns[:11]
 
 #Name for the classifiers
-names = ["KNeighborsClassifier", "LinearSVM", "RBFSVM", "GaussianProcessClassifier",
+names = ["KNeighborsClassifier", "LinearSVM", "GaussianProcessClassifier",
          "DecisionTreeClassifier", "RandomForestClassifier", "NeuralNet", "AdaBoost",
          "NaiveBayes", "QDA"]
 
