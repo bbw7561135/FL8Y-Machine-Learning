@@ -56,7 +56,24 @@ for name in names:
     preds = cl.predict(test[features])
     df[name] = preds
     
+#Results for 90%-up-model and top-3-model
+df['90upmodel'] = df[["KNeighborsClassifier","GaussianProcessClassifier","DecisionTreeClassifier","RandomForestClassifier","AdaBoost"]].min(axis=1)
+df['top3model'] = df[["GaussianProcessClassifier","DecisionTreeClassifier","AdaBoost"]].mode(axis=1)
+
+#Convert 0,1 to AGN,PSR
+def converter(num):
+	if (num==0):
+		return 'AGN'
+	elif(num==1):
+		return 'PSR'
+	else:
+		return num
+
+df = df.applymap(converter)
+
 #Save the results as csv
 df.to_csv('result.csv',sep='\t', index=False)
+
+df[df['top3model'] == 'PSR']["Source_Name"].to_csv('psr_candidates.txt', header=None, index=None, sep=' ')
 
 print("Done!")

@@ -23,7 +23,7 @@ save = []
 
 while(i<le):
     a = test[i]
-    proc_a = a[:-2]
+    proc_a = a[1:-2]
     save.append(proc_a)
     i += 1
     
@@ -85,6 +85,23 @@ for name in names:
     cl = pickle.load(open(name+'_MSP.sav','rb'))
     preds = cl.predict(test[features])
     df[name] = preds
+
+#Results for 90%-up-model and top-3-model
+df['90upmodel'] = df[["KNeighborsClassifier", "LinearSVM", "RBFSVM", "GaussianProcessClassifier",
+         "DecisionTreeClassifier", "RandomForestClassifier", "NeuralNet", "AdaBoost",
+         "NaiveBayes", "QDA"]].min(axis=1)
+df['top3model'] = df[["KNeighborsClassifier","GaussianProcessClassifier","QDA"]].mode(axis=1)
+
+#Convert 0,1 to YNG,MSP
+def converter(num):
+    if (num==0):
+        return 'YNG'
+    elif(num==1):
+        return 'MSP'
+    else:
+        return num
+
+df = df.applymap(converter)
 
 #Save the results as csv
 df.to_csv('result_msp.csv',sep='\t', index=False)
